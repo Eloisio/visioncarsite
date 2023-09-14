@@ -1,0 +1,217 @@
+
+.totals2 { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+.totals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px;
+    margin-bottom: 0px;
+}
+.total-item {
+    color: rgb(2, 1, 15);
+    text-align: center;
+    font-size: 15px;
+}
+
+.total-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.total-value {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.caixinha-wrapper {
+    color: rgb(13, 0, 255);
+    display: flex;
+    margin-top: 5px;
+}
+.concluir-wrapper {
+    display: flex;
+    justify-content: center ;
+    margin-top: 20px;
+}
+
+.total-value-sv {
+    color: rgb(13, 0, 255);
+    font-size: 15px;
+    justify-content: center ;
+    margin-top: 10px;
+}
+.total-value-cx {
+    color: rgb(68, 0, 255);
+    font-size: 15px;
+    justify-content: center ;
+    margin-top: 10px;
+}
+.total-value-tt {
+    color: red;
+    font-size: 15px;
+    justify-content: center ;
+    margin-top: 10px;
+}
+.increment-button,
+.decrement-button {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 4px 9px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.caixinha-wrapper .increment-button {
+    order: -1;
+    margin-right: 5px; /* Ajuste conforme necessário */
+}
+.prod-button{
+    margin-left: 30px;
+    background-color: rgb(148, 116, 255);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 8px; 
+    font-size: 15px;
+    cursor: pointer;
+    align-items: center;
+
+}
+.concluir-button {
+    background-color: rgb(148, 116, 255);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 8px; 
+    font-size: 20px;
+    cursor: pointer;
+    align-items: center;
+    margin-right: 2px;
+    margin-left: 120px;
+}
+
+.ld-list>.ld-wrapper>.main-content>.title-button>.title {
+
+    margin-top: 22px;
+    text-align: center;
+    font-size: calc(var(--ld-font-size-base) + 10px);
+    font-weight: 800;
+}
+
+.row.card.selected {
+    background-color: #f0f0f0; /* Cor de fundo para o card selecionado */
+    border: 2px solid #00aaff; /* Borda para realçar o card selecionado */
+}
+.row.card {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 10px;
+}
+.method-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: inherit; /* Adicione esta linha para herdar o tamanho da fonte do .method-option */
+}
+
+.method-option input[type="radio"]:checked + span.checkmark::before {
+    background-color: #00aaff;
+    border-color: #00aaff;
+}
+.method-optionct,
+.method-optiondn {
+  display: inline-block;
+  text-align: center;
+  margin: 0px 5px;
+}
+
+.method-optionct {
+    text-align: center;
+    display: inline-block;
+}
+
+.method-option input[type="radio"]:checked + span.checkmark::after {
+    display: block;
+    text-align: center;
+}
+
+.table-wrapper{
+    padding: 20px;
+}
+
+.ld-table {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: white;
+    padding-top: 18px;
+    margin-bottom: 15px; 
+}
+
+.row {
+    display: flex;
+    height:0%; 
+    width: 95%;
+    margin-left: 5px;
+    margin-bottom: 5px; 
+    /* margin-top: 15px;  */
+}
+
+.item-description{
+    margin-top: 0PX; 
+    margin-bottom: 0PX; 
+    flex: 5;
+    color: blue;
+    margin-left: 1px;
+}
+   .price-column {
+    margin-top: 0PX; 
+    flex: 5;
+    color: blue;
+    margin-left: 50px;
+  
+  } 
+  .preco2{
+    margin-top: 0PX; 
+    color: blue;
+    margin-left: 40px;
+  margin-top: -10PX;  
+ }
+ .row_card{
+    height: 20px;
+ }
+  .produto-item {
+
+    display: flex;
+    justify-content: space-between; /* Adiciona espaço entre os elementos filhos */
+    align-items: center; /* Alinha verticalmente os elementos filhos */
+    margin-bottom: 5px; /* Espaçamento entre os itens de produto */
+}
+.produtos{
+    margin-left: 50px;
+    color: blue;
+}
+.Descricaopd {
+    font-size: 16px;
+    margin-left: 10px;
+    color: rgb(2, 2, 28);
+}
+.Descricao {
+    font-size: 6px;
+    margin-top: -10PX; 
+}
+.precopd {
+    font-size: 14px;
+    margin-right: 70px;
+    color: blue;
+}
+
+  
+

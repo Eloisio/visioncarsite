@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página com Logotipo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .logo {
+            margin-top: 50px;
+        }
+
+        .logo {
+            margin-top: 50px;
+        }
+
+        .logo2 img {
+            max-width: 400px;
+            border-radius: 50px;
+            margin-top: 20px;
+        }
+
+        .mensagem {
+            font-size: 30px;
+            color: #2812c8;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .mensagem1{
+            padding: 10px;
+        }
+        .mensagem2{
+            padding: 10px;
+        }
+        .mensagem3{
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+    </div>
+    <div class="mensagem">
+        <div class="mensagem1"id="mensagem1">
+            <p> </p>
+        </div>
+        <div class="mensagem2"id="mensagem2">
+            <p> </p>
+        </div>
+        <div class="mensagem3"id="mensagem3">
+            <p> </p>
+        </div>
+        <div class="logo2">
+            <img alt="Logo2" class="image" src="assets/logo/carro.png">
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var _Msg1 = sessionStorage.getItem("Empresa_MsgFinalLinha1");
+        var _Msg2 = sessionStorage.getItem("Empresa_MsgFinalLinha2");
+        var _Msg3 = sessionStorage.getItem("Empresa_MsgFinalLinha3");
+
+        var _mensagem1 = document.getElementById('mensagem1');
+        _mensagem1.textContent=_Msg1;
+        var _mensagem2 = document.getElementById('mensagem2');
+        _mensagem2.textContent=_Msg2;
+        var _mensagem3 = document.getElementById('mensagem3');
+        _mensagem3.textContent=_Msg3;
+    })
+</script>
+</html>

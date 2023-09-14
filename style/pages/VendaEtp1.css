@@ -1,0 +1,92 @@
+
+
+.ld-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    /* justify-content: center; */
+    min-height: 100vh; /* Isso garante que o conteúdo ocupe pelo menos 100% da altura da tela */
+    background-color: #f8f8f8;
+}
+.title {
+    font-size: calc(var(--ld-font-size-base) + 15px);
+    padding: 10px ;
+}
+.title-2 {
+    text-align: center;
+    margin-top: 5px;
+    gap: 10px;
+}
+.ld-input{
+    margin-top: 10px;
+    font-size: calc(var(--ld-font-size-base) + 15px);
+    text-align: center;
+}
+.card-wrapper-center {
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    margin-top: 10px; /* Adicione uma margem superior se desejar */
+}
+
+.concluir-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    margin-bottom: 20px;
+    margin-top: 10px; /* Adicione uma margem superior se desejar */
+}
+.cadastro-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    margin-top: 10px; /* Adicione uma margem superior se desejar */
+}
+.material-icons{
+    margin-left: 20px;
+}
+.method-optionct input[type="radio"] {
+    margin-left: 25px; /* Ou qualquer outro valor de margem que desejar */
+}
+.method-optiondn input[type="radio"] {
+    margin-left: 25px; /* Ou qualquer outro valor de margem que desejar */
+}
+.concluir-button {
+    background-color: blue; /* Define a cor de fundo para azul */
+    color: white; /* Define a cor do texto para branco */
+    border: none;
+    border-radius: 10px; /* Adiciona borda arredondada */
+    padding: 10px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    align-items: center;
+    margin-top: 10px;    
+}
+.textoCondicional2{
+    margin-top: 10px;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+.cadastro-button {
+    background-color: rgb(82, 82, 234); /* Define a cor de fundo para azul */
+    color: white; /* Define a cor do texto para branco */
+    border: none;
+    border-radius: 10px; /* Adiciona borda arredondada */
+    padding: 4px 4px;
+    font-size: 18px;
+    cursor: pointer;
+    align-items: center;
+    margin-top: 20px;
+}
+/* Estilo ao passar o mouse sobre o botão */
+.concluir-button:hover {
+    background-color: darkblue; /* Altera a cor de fundo ao passar o mouse */
+}
+
+
+
+

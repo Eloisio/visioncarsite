@@ -1,0 +1,106 @@
+/* Estilos para a tabela e o card no final */
+.table-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.total-card {
+    background-color: var(--ld-color-gray-lightest);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    width: 25%;
+}
+
+.total-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ld-color-gray-dark);
+    margin-right: 10px;
+}
+
+.total-value {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ld-color-primary);
+}
+.total-Geral {
+    font-size: 25px;
+    font-weight: 600;
+    color:  rgb(247, 19, 19);
+}
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinha à direita */
+
+    margin-right: 0px; /* Espaçamento à direita */
+}
+
+.filter-container label {
+    margin-right: 5px; /* Aumentei um pouco para melhorar a visibilidade */
+    margin-bottom: 0;
+    font-weight: 900;
+    color: blue;
+    align-items: right;
+}
+
+.filter-container input[type="date"] {
+
+    border: 1px solid var(--ld-color-gray-lighter);
+    border-radius: 0px;
+    margin-right: 0px; /* Aumentei um pouco para melhorar a visibilidade */
+    width: 150px;
+    font-weight: 800;
+    align-items: right;
+}
+
+.ld-table {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: white;
+    padding-top: 28px;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.ld-table>.head>.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr 1fr 1fr 1fr 1fr 1fr 1fr  3fr 1fr 2fr ;
+    padding-left: 12px;
+    padding-right: 22px;
+    align-items: center;
+    color: rgb(59, 9, 242);
+}
+
+.ld-table>.body>.row {
+    font-size: calc(var(--ld-font-size-base) + 4px);
+    display: grid;
+    padding: 10px ;
+    align-items: center;
+    margin-top: 10px;
+    grid-template-columns: 1fr 1fr 4fr 1fr 1fr 1fr 1fr 1fr 1fr  3fr 1fr 2fr ;
+    border-bottom: 1px solid var(--ld-color-gray-lighter);
+}
+
+.ld-list>.ld-wrapper>.main-content>.title-button {
+    margin-top: 140px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+}
+
+.ld-list>.ld-wrapper>.main-content>.title-button>.title {
+    font-size: calc(var(--ld-font-size-base) + 30px);
+    font-weight: 500;
+    padding: 1px;
+    margin-bottom: 20px;
+}
+
+

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <!-- <link rel="stylesheet" href="style/components/ld-input.css"> -->
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+
+    <!-- GENERIC -->
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <!-- BASE -->
+    <link rel="stylesheet" href="style/base/html.css">
+    <!-- COMPONENTS -->
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/pages/UserCreate.css">
+    <script src="scripts/UserCreate.js"></script>
+
+    <style>
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+        }
+
+        .checkbox-label {
+            margin-left: 1px;
+        }
+
+        .ld-input0 {
+            font-size: calc(var(--ld-font-size-base) + 6px);
+            border: none;
+            background: none;
+            border-bottom: 1px solid var(--ld-color-gray-light);
+            outline: none;
+            transition: border-color .5s;
+            color: rgb(41, 41, 248);
+            width: 60%;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .ld-input0:focus {
+            border-color: var(--ld-color-primary);
+        }
+
+        .ld-input0::placeholder {
+            color: rgb(180, 180, 182);
+        }
+
+        .ld-input3 {
+            font-size: calc(var(--ld-font-size-base) + 6px);
+            border: none;
+            background: none;
+            border-bottom: 1px solid var(--ld-color-gray-light);
+            outline: none;
+            transition: border-color .5s;
+            color: rgb(41, 41, 248);
+            width: 60%;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .ld-input3:focus {
+            border-color: var(--ld-color-primary);
+        }
+
+        .ld-input3::placeholder {
+
+            color: rgb(180, 180, 182);
+        }
+
+        .ld-input2 {
+            font-size: calc(var(--ld-font-size-base) + 6px);
+            border: none;
+            background: none;
+            border-bottom: 1px solid var(--ld-color-gray-light);
+            outline: none;
+            transition: border-color .5s;
+            color: rgb(41, 41, 248);
+            width: 60%;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .ld-input2:focus {
+            border-color: var(--ld-color-primary);
+        }
+
+        .ld-input2::placeholder {
+
+            color: rgb(180, 180, 182);
+        }
+
+        .ld-input1 {
+            font-size: calc(var(--ld-font-size-base) + 6px);
+            border: none;
+            background: none;
+            border-bottom: 1px solid var(--ld-color-gray-light);
+            outline: none;
+            transition: border-color .5s;
+            /* padding-bottom: 10px; */
+            width: 60%;
+            margin-bottom: 12px;
+            color: rgb(41, 41, 248);
+            text-align: center;
+        }
+
+        .ld-input1:focus {
+            border-color: var(--ld-color-primary);
+
+        }
+
+        .ld-input1::placeholder {
+            color: rgb(180, 180, 182);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper -has-user">
+                <div class="menu-icon">
+                    <a href="Menu.html">
+                        <i class="material-icons">home</i>
+                    </a>
+                </div>
+                <div class="logo-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+                <div class="user">
+                    <div class="info">
+                        <h3><span id="name" class="name"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="main-title">
+                <span id="titulo">Cadastrar Empresa.</span>
+            </h1>
+            <h3 class="Tamanho-title">Nome da Empresa</h3>
+            <input required id="nome" class="ld-input" placeholder="Nome da Empresa">
+            <h3 class="Tamanho-title">Nome Fantasia</h3>
+            <input required id="nomefantasia" class="ld-input" placeholder="Nome Fantasia">
+
+            <h3 class="Tamanho-title">Mensagem Avaliacao</h3>
+            <input required id="msgAvaliacao" class="ld-input0" placeholder="Digite a mensagem da tela de avaliação">
+
+            <h4 class="Tamanho-title">Mensagem Final Linha 1</h4>
+            <input required id="msgFinal1" class="ld-input1" placeholder="Digite a mensagem Final linha 1">
+            <h4 class="Tamanho-title">Mensagem Final Linha 2</h4>
+            <input required id="msgFinal2" class="ld-input2" placeholder="Digite a mensagem Final linha 2">
+            <h4 class="Tamanho-title">Mensagem Final Linha 3</h4>
+            <input required id="msgFinal3" class="ld-input3" placeholder="Digite a mensagem Final linha 3">
+
+            <div class="method-option">
+                <h3 class="ativo-title">Empresa Ativa</h3>
+                <input name="usuario-ativo" type="checkbox" id="Empresaativo" value="Ativo">
+            </div>
+
+            <div class="button-wrapper">
+                <button class="ld-button -small" id="ld-button -small">Avançar</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const _id = urlParams.get("id");
+            var _idEmpresa = urlParams.get("idEmpresa");
+            const _Empresanome = urlParams.get("Empresanome");
+            const _Empresanomefantasia = urlParams.get("Empresanomefantasia");
+            const _ativo = urlParams.get("Empresaativo");
+
+            var _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+            var nomeInput = document.getElementById('nome');
+            var nomefantasiaInput = document.getElementById('nomefantasia');
+            var EmpresaAtivo = document.getElementById('Empresaativo');
+
+            const msgAvaliacao = document.getElementById('msgAvaliacao');
+            const msgFinal1 = document.getElementById('msgFinal1');
+            const msgFinal2 = document.getElementById('msgFinal2');
+            const msgFinal3 = document.getElementById('msgFinal3');
+
+            const tituloEmpresa = document.getElementById("titulo");
+            const storedName = sessionStorage.getItem("User_nome");
+            const masterValue = sessionStorage.getItem("User_Master");
+
+            _msgAvaliacao = sessionStorage.getItem("Empresa_MsgCadastroAvaliacao");
+            _msgFinal1 = sessionStorage.getItem("Empresa_MsgFinalLinha1");
+            _msgFinal2 = sessionStorage.getItem("Empresa_MsgFinalLinha2");
+            _msgFinal3 = sessionStorage.getItem("Empresa_MsgFinalLinha3");
+
+            if (storedName) {
+                const nameElement = document.getElementById("name");
+                nameElement.textContent = "Usuario: " + storedName;
+            }
+
+            if (!_idEmpresa) _idEmpresa = _UseridEmpresa;
+
+            if (_id) {
+                nomeInput.value = _Empresanome;
+                nomefantasiaInput.value = _Empresanomefantasia;
+                EmpresaAtivo.checked = _ativo === "true";
+
+                _msgAvaliacao = sessionStorage.getItem("Empresa_MsgCadastroAvaliacao");
+                _msgFinal1 = sessionStorage.getItem("Empresa_MsgFinalLinha1");
+                _msgFinal2 = sessionStorage.getItem("Empresa_MsgFinalLinha2");
+                _msgFinal3 = sessionStorage.getItem("Empresa_MsgFinalLinha3");
+
+                msgAvaliacao.value = _msgAvaliacao;
+                msgFinal1.value = _msgFinal1;
+                msgFinal2.value = _msgFinal2;
+                msgFinal3.value = _msgFinal3;
+
+                tituloEmpresa.textContent = "Editar Empresa";
+            }
+            const avancarButton = document.getElementById("ld-button -small");
+            avancarButton.addEventListener("click", cadastrarini);
+
+            function cadastrarini() {
+                if (_id) {
+                    Update();
+                } else {
+                    cadastrar();
+                }
+            }
+            let lista = [];
+            let id_;
+
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "nome": nomeInput.value,
+                    "nomefantasia": nomefantasiaInput.value,
+                    "ativo": true
+                });
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                let responseData;
+
+                fetch("https://produtoapi.azurewebsites.net/api/Empresa", requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        lista = response;
+                        cadastrarusuario();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function cadastrarusuario() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                id_ = lista.substring(8, 6);
+
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "idEmpresa": id_,
+                    "nome": nomeInput.value.replace(/\s/g, "") + "@" + nomeInput.value.replace(/\s/g,
+                        ""),
+                    "email": nomeInput.value.replace(/\s/g, "") + "@" + nomeInput.value.replace(/\s/g,
+                        ""),
+                    "senha": "1234",
+                    "data_add": new Date(),
+                    "ativo": true,
+                    "master": false,
+                    "role": ""
+                });
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("https://produtoapi.azurewebsites.net/api/users", requestOptions)
+                    .then(response => response.json())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Empresa Cadastrada com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaEmpresas.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function Update() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": _id,
+                    "nome": nomeInput.value,
+                    "nomefantasia": nomefantasiaInput.value,
+                    "ativo": EmpresaAtivo.checked,
+                    "msgCadastroAvaliacao": "string",
+                    "msgFinalLinha1": "string",
+                    "msgFinalLinha2": "string",
+                    "msgFinalLinha3": "string"
+                });
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Empresa/" + _id, requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Empresa Atualizada com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaEmpresas.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

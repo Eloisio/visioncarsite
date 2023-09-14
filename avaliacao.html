@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Avaliação de Serviço</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .Empresa_MsgCadastroAvaliacao{
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+        }
+
+        .rating-item {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .rating-label {
+            font-size: 1em;
+            padding: 0.1em;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .rating-description {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        textarea {
+            width: 100%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        /* Remova a propriedade display: none; dos input[type="radio"] */
+        input[type="radio"] {
+            display: none;
+        }
+
+        /* Estilize os radio buttons como estrelas */
+        .rating input[type="radio"]+.rating-label:before {
+            content: "☆";
+            font-size: 2em;
+            padding: 0.1em;
+            display: inline-block;
+        }
+
+        /* Estilize as estrelas quando hover ou selecionadas */
+        .rating input[type="radio"]:checked+.rating-label:before,
+        .rating .rating-label:hover:before {
+            color: #ffcc00;
+        }
+
+        /* Estilize as estrelas clicadas e anteriores */
+        .rating input[type="radio"]:checked~.rating-label:before {
+            color: #ffcc00;
+        }
+
+        .nome {
+            margin-left: 10px;
+        }
+
+        .celular {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Avaliação de Serviço</h1>
+        <form id="service-form">
+            <label for="service-rating">Classificação:</label>
+            <div class="rating">
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="1" id="1-star">
+                    <label for="1-star" class="rating-label"></label>
+                    <div class="rating-description">Muito Ruim</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="2" id="2-stars">
+                    <label for="2-stars" class="rating-label"></label>
+                    <div class="rating-description">Ruim</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="3" id="3-stars">
+                    <label for="3-stars" class="rating-label"></label>
+                    <div class="rating-description">Regular</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="4" id="4-stars">
+                    <label for="4-stars" class="rating-label"></label>
+                    <div class="rating-description">Bom</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="5" id="5-stars">
+                    <label for="5-stars" class="rating-label"></label>
+                    <div class="rating-description">Excelente</div>
+                </div>
+            </div>
+            <label for="service-feedback">Comentários:</label>
+            <textarea id="service-feedback" name="feedback" rows="4" cols="50"></textarea>
+            <div class="Empresa_MsgCadastroAvaliacao" id="Empresa_MsgCadastroAvaliacao">
+                <h4></h4>
+            </div>
+            <div class="nome">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome">
+            </div>
+            <div class="celular">
+                <label for="celular">Celular</label>
+                <input type="text" id="celular" name="celular">
+            </div>
+            <button class="bt" id="bt" type="submit">Enviar Avaliação</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ratingInputs = document.querySelectorAll('input[type="radio"][name="rating"]');
+            var _id = sessionStorage.getItem("idVenda");
+            var cliente_EmpresaId = sessionStorage.getItem("cliente_EmpresaId");
+            var Venda_carro = sessionStorage.getItem("cliente_veiculo");
+            var _MsgCadastroAvaliacao = sessionStorage.getItem("Empresa_MsgCadastroAvaliacao");
+            var Venda_tipoVeiculo = sessionStorage.getItem("cliente_tpveiculo");
+            var selectedRating = null;
+            const enviarAvaliacaoButton = document.querySelector('button[type="submit"]');
+
+            ratingInputs.forEach(function (input) {
+                input.addEventListener('click', function () {
+                    if (input.checked) {
+                        selectedRating = input.value;
+                    }
+                });
+            });
+            var _Avaliacao = document.getElementById('Empresa_MsgCadastroAvaliacao');
+            _Avaliacao.textContent=_MsgCadastroAvaliacao;
+
+            enviarAvaliacaoButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                Update();
+            });
+
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const dataAtual = new Date().toISOString();
+                var avaliacaoCelular = document.getElementById('celular');
+                var avaliacaonome = document.getElementById('nome');
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "idEmpresa": cliente_EmpresaId,
+                    "carro": Venda_carro,
+                    "placa": "",
+                    "celular": avaliacaoCelular.value,
+                    "tipoVeiculo": Venda_tipoVeiculo,
+                    "data_add": dataAtual,
+                    "ativo": true,
+                    "nome": avaliacaonome.value
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Cliente", requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        const redirectTo = `Agradecimento.html`;
+                window.location.href = redirectTo;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function Update() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var avaliacao_ = "Muito Ruin";
+                if (selectedRating == 2) {
+                    avaliacao_ = "Ruin";
+                } else {
+                    if (selectedRating == 3) {
+                        avaliacao_ = "Regular";
+                    } else {
+                        if (selectedRating == 4) {
+                            avaliacao_ = "Bom";
+                        }
+                        if (selectedRating == 5) {
+                            avaliacao_ = "Excelente";
+                        }
+                    }
+                }
+                var avaliacaoDescricao = document.getElementById('service-feedback');
+                var avaliacaoCelular = document.getElementById('celular');
+                var avaliacaonome = document.getElementById('nome');
+
+                var raw = JSON.stringify({
+                    "id": _id,
+                    "idEmpresa": cliente_EmpresaId,
+                    "idCliente": 0,
+                    "valor": 0,
+                    "caixinha": 0,
+                    "inicio": "2023-09-04T10:04:13.600Z",
+                    "fim": "2023-09-04T10:04:13.600Z",
+                    "data": "2023-09-04T10:04:13.600Z",
+                    "pago": true,
+                    "avisarCliente": true,
+                    "excluido": true,
+                    "observacao": "string",
+                    "descricao": "string",
+                    "placa": "string",
+                    "tipoPgto": 0,
+                    "avaliacao": avaliacao_,
+                    "avaliacaoDescricao": avaliacaoDescricao.value,
+                    "celular": avaliacaoCelular.value
+                });
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Venda/avaliacao/" + _id, requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Avaliacao enviada com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('bt').style.display = 'none';
+                                cadastrar();
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>

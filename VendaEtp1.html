@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/base/html.css">
+    <link rel="stylesheet" href="style/pages/VendaEtp1.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper -has-user">
+                <div></div>
+                <div class="logo-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="title-1">
+                <h1 class="title">Vamos Definir seu Veiculo</h1>
+            </div>
+            <div class="title-2">
+                <h1 class="title">Placa</h1>
+                <input required id="placa" class="ld-input" placeholder="Placa do Veiculo">
+            </div>
+
+            <div class="title-2">
+                <h1 class="title">Veiculo</h1>
+                <input required id="veiculo" class="ld-input" placeholder="veiculo">
+            </div>
+
+            <div class="concluir-wrapper">
+                <button class="concluir-button" id="concluir-button">Avançar</button>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Selecione um veículo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" id="confirmarSelecao">Selecionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("idEmpresa");
+            const companyName = urlParams.get("EmpresaNome");
+            const concluirbutton = document.getElementById("concluir-button");
+            // document.getElementById('cadastro-button').style.display = 'none';
+            var venda_id = null;
+            var veiculoEncontrado = false;
+            var list = null;
+            var tamanho_ = "Pequeno";
+            var placa_ = "";
+            var veiculoSelecionadoNome = null;
+            var veiculo = null;
+            var veiculoInput = document.getElementById("veiculo");
+            veiculoInput.disabled = true;
+
+            function formatInput(inputElement) {
+                let value = inputElement.value;
+                value = value.replace(/[^0-9]/g, '');
+                value = value.toUpperCase();
+                inputElement.value = value;
+            }
+
+            function avancar() {
+                sessionStorage.setItem("cliente_veiculo", veiculo);
+                sessionStorage.setItem("cliente_EmpresaId", id);
+                sessionStorage.setItem("cliente_tpveiculo", tamanho_);
+                sessionStorage.setItem("cliente_placa", placa_);
+
+                fetch("https://produtoapi.azurewebsites.net/api/Empresa/" + id)
+                    .then(response => response.json())
+                    .then(response => {
+                        sessionStorage.setItem("Empresa_id", id);
+                        sessionStorage.setItem("Empresa_nome", response.nome);
+                        sessionStorage.setItem("Empresa_NomeFantasia", response.nomeFantasia);
+                        sessionStorage.setItem("Empresa_MsgCadastroAvaliacao", response
+                            .msgCadastroAvaliacao);
+                        sessionStorage.setItem("Empresa_MsgFinalLinha1", response.msgFinalLinha1);
+                        sessionStorage.setItem("Empresa_MsgFinalLinha2", response.msgFinalLinha2);
+                        sessionStorage.setItem("Empresa_MsgFinalLinha3", response.msgFinalLinha3);
+                        const redirectTo = `VendaEtp2.html`;
+                        window.location.href = redirectTo;
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar dados da API:", error);
+                    });
+            }
+            document.getElementById("confirmarSelecao").addEventListener("click", function () {
+                var selectedVeiculo = document.querySelector(
+                    'input[name="veiculosSelecionados"]:checked');
+                if (selectedVeiculo) {
+                    veiculoSelecionadoNome = selectedVeiculo.value;
+                    const placaImput = document.getElementById("placa");
+                    placa_ = placaImput.value;
+                    list.forEach(dt => {
+                        if (dt.name === veiculoSelecionadoNome && dt.name.length ===
+                            veiculoSelecionadoNome.length && dt.ativo) {
+                            veiculoEncontrado = true;
+                            veiculo = veiculoSelecionadoNome;
+                            tamanho_ = dt.tamanho;
+                        }
+                    });
+                    $('#myModal').modal('hide');
+                    avancar();
+                } else {
+                    alert("Nenhum veículo selecionado.");
+                }
+            });
+            const placaImput = document.getElementById("placa");
+
+            placaImput.addEventListener('blur', function () {
+                executarFuncao();
+            });
+
+            function executarFuncao() {
+                var placaImput = document.getElementById("placa");
+                placa_ = placaImput.value.trim().toUpperCase();
+                fetch("https://produtoapi.azurewebsites.net/api/Venda/placa/" + placa_)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            veiculo = data[0].veiculo;
+                            veiculoInput.value = veiculo;
+
+                            data.forEach(dl => {
+                                if (dl.fim.includes("2001-01-01")) {
+                                    const objetoString = JSON.stringify(dl);
+                                    sessionStorage.setItem("ObjVenda", objetoString);
+                                }
+                            })
+
+                        } else {
+                            veiculoInput.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        veiculoInput.disabled = false;
+                    });
+            }
+
+            function exibirMensagemDeErro(mensagem) {
+                // Exibir a mensagem de erro para o usuário (você pode usar alert, modal, ou outro método)
+                alert(mensagem);
+            }
+            document.getElementById("concluir-button").addEventListener("click", () => {
+                var veiculoInput = document.getElementById("veiculo");
+                veiculo = veiculoInput.value;
+                var placaImput = document.getElementById("placa");
+                placa_ = placaImput.value;
+
+                fetch("https://produtoapi.azurewebsites.net/api/Veiculo/veiculo/" + veiculo)
+                    .then(response => {
+                        if (!response.ok) {
+                            exibirMensagemDeErro('Sinto Muito \n Veículo não cadastrado.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Verifique se data é nulo ou vazio, se necessário
+                        if (data) {
+                            list = data;
+                            list.forEach(dt => {
+                                if (dt.name === veiculo && dt.name.length === veiculo
+                                    .length && dt.ativo) {
+                                    veiculoEncontrado = true;
+                                    tamanho_ = dt.tamanho;
+                                }
+                            });
+                            // Tratar o caso em que a resposta é nula ou vazia
+                            if (!veiculoEncontrado) {
+                                var modalBody = document.querySelector('.modal-body');
+                                modalBody.innerHTML = '';
+                                var form = document.createElement('form');
+                                var groupName = 'veiculosSelecionados';
+                                list.forEach(dt => {
+                                    var div = document.createElement('div');
+                                    div.classList.add('form-check');
+                                    var input = document.createElement('input');
+                                    input.type = 'radio'; // Altere para 'radio'
+                                    input.classList.add('form-check-input');
+                                    input.value = dt.name;
+                                    input.name =
+                                        groupName; // Use o mesmo nome para todos os botões de rádio
+                                    input.id = dt
+                                        .name; // Defina um id único para cada botão de rádio
+                                    var label = document.createElement('label');
+                                    label.classList.add('form-check-label');
+                                    label.textContent = dt.name;
+                                    label.setAttribute('for', dt
+                                        .name
+                                    ); // Associe o label ao id do botão de rádio
+                                    div.appendChild(input);
+                                    div.appendChild(label);
+                                    form.appendChild(div);
+                                });
+                                modalBody.appendChild(form);
+                                $('#myModal').modal('show');
+
+                            } else {
+                                avancar();
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        // Tratar erros de rede ou outros erros na solicitação
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

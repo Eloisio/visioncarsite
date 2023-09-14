@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <link rel="stylesheet" href="style/base/html.css">
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/components/ld-tableVenda.css">
+
+    <style>
+        @media (max-width: 768px) {
+            .rating {
+                flex-direction: column;
+                /* Empilhar os itens verticalmente */
+                align-items: center;
+                /* Centralizar verticalmente */
+            }
+
+            .rating-item {
+                margin: 5px 0;
+                /* Adicione margem superior e inferior para espaçamento entre os itens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ld-list">
+        <div class="ld-wrapper">
+            <header class="ld-header">
+                <div class="wrapper -has-user">
+                    <div class="menu-icon">
+                        <a href="Menu.html">
+                            <i class="material-icons">home</i>
+                        </a>
+                    </div>
+                    <div class="logo-wrapper">
+                        <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                    </div>
+                    <div class="user">
+                        <div class="info">
+                            <h3><span id="name" class="name"></span></h3>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content -one-col">
+                <div class="title-button">
+                    <h1 class="title">Vendas</h1>
+                </div>
+                <div class="filter-container">
+                    <label for="date-filter">Filtrar por Data:</label>
+                    <input type="date" id="date-filter">
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="ld-table">
+                        <div class="head">
+                            <div class="row">
+                                <div>Data</div>
+                                <div>Veiculo</div>
+                                <div>Descrção</div>
+                                <div>Inicio</div>
+                                <div>Fim</div>
+                                <div>Valor</div>
+                                <div>Caixinha</div>
+                                <div>Total</div>
+                                <div>Tipo Pgto</div>
+                                <div>Obs</div>
+                                <div>Avaliacao</div>
+                                <div>Obs Cli</div>
+                            </div>
+                        </div>
+                        <div class="body" id="table-body">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-footer">
+                    <div class="total-card">
+                        <h3 class="total-title">Total Geral:</h3>
+                        <div class="total-Geral">R$ 0,00</div>
+                    </div>
+                    <div class="total-card">
+                        <h3 class="total-title">Total Dinheiro:</h3>
+                        <div class="total-Dinheiro">R$ 0,00</div>
+                    </div>
+                    <div class="total-card">
+                        <h3 class="total-title">Total Cartão:</h3>
+                        <div class="total-Cartao">R$ 0,00</div>
+                    </div>
+                    <div class="total-card">
+                        <h3 class="total-title">Total Pix:</h3>
+                        <div class="total-Pix">R$ 0,00</div>
+                    </div>
+                    <div class="total-card">
+                        <h3 class="total-title">Total Caixinha:</h3>
+                        <div class="total-Caixinha">R$ 0,00</div>
+                    </div>
+                    <div class="total-card">
+                        <h3 class="total-title">Contador:</h3>
+                        <div class="total-Contador">0</div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const storedName = sessionStorage.getItem("User_nome");
+            const masterValue = sessionStorage.getItem("User_Master");
+
+            if (storedName) {
+                const nameElement = document.getElementById("name");
+                nameElement.textContent = "Usuario: " + storedName;
+            }
+
+        });
+        let lista = [];
+        var _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+        let totalSum = 0;
+        var totalDinheiro = 0;
+        var totalCartao = 0;
+        var totalPix = 0;
+        var totalCaixinha = 0;
+        var Contador = 0;
+
+        function calculateTotalSum(list) {
+            list.forEach(item => {
+                const valorNumerico = parseFloat(item.valor);
+                const caixinhaNumerico = parseFloat(item.caixinha);
+                totalCaixinha += caixinhaNumerico;
+                const total = valorNumerico + caixinhaNumerico;
+                totalSum += total;
+                if (item.tipoPgto == 1) {
+                    totalDinheiro += total;
+                } else {
+                    if (item.tipoPgto == 2) {
+                        totalCartao += total;
+                    } else {
+                        if (item.tipoPgto == 3) {
+                            totalPix += total;
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTotalCard() {
+            const totalValueElement = document.querySelector(".total-Geral");
+            const totalValuetotalDinheiro = document.querySelector(".total-Dinheiro");
+            const totalValuetotalCartao = document.querySelector(".total-Cartao");
+            const totalValuetotalPix = document.querySelector(".total-Pix");
+            const totalValuetotalCaixinha = document.querySelector(".total-Caixinha");
+            const totalcontadorElement = document.querySelector(".total-Contador");
+            totalValueElement.textContent = `R$ ${totalSum.toFixed(2)}`;
+            totalValuetotalDinheiro.textContent = `R$ ${totalDinheiro.toFixed(2)}`;
+            totalValuetotalCartao.textContent = `R$ ${totalCartao.toFixed(2)}`;
+            totalValuetotalPix.textContent = `R$ ${totalPix.toFixed(2)}`;
+            totalValuetotalCaixinha.textContent = `R$ ${totalCaixinha.toFixed(2)}`;
+            totalcontadorElement.textContent=lista.length;
+        }
+
+        function getVendas(selectedDate) {
+            fetch("https://produtoapi.azurewebsites.net/api/venda/Empresa/" + _UseridEmpresa + "/data/" + selectedDate)
+                .then(response => response.json())
+                .then(response => {
+                    lista = response;
+                    calculateTotalSum(lista);
+                    updateTotalCard();
+                    buildTable(lista);
+                })
+
+        }
+
+        const dateFilterInput = document.getElementById("date-filter");
+        dateFilterInput.addEventListener("change", () => {
+            const selectedDate = dateFilterInput.value; // Valor selecionado no input de data
+            getVendas(selectedDate); // Chama a função para filtrar a lista
+        });
+
+        function filterByDate(selectedDate) {
+            getVendas(selectedDate);
+            const formattedSelectedDate = new Date(selectedDate);
+            const filteredList = lista.filter(item => {
+                const itemDate = new Date(item.data);
+                return itemDate.toISOString().substring(0, 10) === formattedSelectedDate.toISOString()
+                    .substring(0, 10);
+            });
+            const totalSum = calculateTotalSum(filteredList); // Calcula a soma dos totais            
+            updateTotalCard(totalSum); // Atualiza o valor no card           
+            buildTable(filteredList);
+        }
+
+        function buildTable(lista_) {
+            document.querySelector("#table-body").innerHTML = '';
+            const idClient = localStorage.getItem('idEmpresa');
+            lista_.forEach(el => {
+                let dataFormatada = new Date(el.data).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                });
+                let inicioFormatada = new Date(el.data);
+                let iniciohoras = inicioFormatada.getHours();
+                let iniciominutos = inicioFormatada.getMinutes();
+                let iniciosegundos = inicioFormatada.getSeconds();
+                let iniciohoraFormatada =
+                    `${iniciohoras.toString().padStart(2, '0')}:${iniciominutos.toString().padStart(2, '0')}`;
+                let fimFormatada = new Date(el.data);
+                let fimhoras = fimFormatada.getHours();
+                let fimminutos = fimFormatada.getMinutes();
+                let fimsegundos = fimFormatada.getSeconds();
+                let fimhoraFormatada =
+                    `${fimhoras.toString().padStart(2, '0')}:${fimminutos.toString().padStart(2, '0')}`;
+
+                let valorNumerico = parseFloat(el.valor);
+                let caixinhaNumerico = parseFloat(el.caixinha);
+                let total = valorNumerico + caixinhaNumerico;
+
+                let valorFormatado = valorNumerico.toLocaleString('pt-BR', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                let caixinhaFormatada = caixinhaNumerico.toLocaleString('pt-BR', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                let totalFormatado = total.toLocaleString('pt-BR', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                var tp = "Dinheiro";
+                if (el.tipoPgto === 2) {
+                    tp = "Cartão";
+                } else {
+                    if (el.tipoPgto === 3) {
+                        tp = "Pix";
+                    }
+                }
+
+                let template = `
+            <div class="row">
+                <div class="Data">${dataFormatada}</div>
+                <div class="veiculo"> ${el.veiculo}</div>
+                <div class="Descricao"> ${el.descricao}</div>
+                <div class="Inicio"> ${iniciohoraFormatada}</div>
+                <div class="Fim">${fimhoraFormatada}</div>
+                <div class="Valor"> ${valorFormatado}</div>
+                <div class="Caixinha"> ${caixinhaFormatada}</div>
+                <div class="Total" red-text">${totalFormatado}</div>
+                <div class="Tipo">${tp}</div>
+                <div class="Observacao"> ${el.observacao}</div>            
+                <div class="Observacao"> ${el.avaliacao}</div>            
+                <div class="Observacao"> ${el.avaliacaoDescricao}</div>            
+                
+            </div>
+        `
+                document.querySelector("#table-body").insertAdjacentHTML("beforeend", template)
+            });
+        }
+        window.onload = function () {
+            selectedDate = document.querySelector("#date-filter").valueAsDate = new Date();
+            const formattedSelectedDate = new Date(selectedDate);
+            const year = formattedSelectedDate.getFullYear();
+            const month = (formattedSelectedDate.getMonth() + 1).toString().padStart(2, '0');
+            const day = formattedSelectedDate.getDate().toString().padStart(2, '0');
+            const formattedDateString = `${year}-${month}-${day}`;
+            getVendas(formattedDateString);
+        }
+    </script>
+</body>
+
+</html>

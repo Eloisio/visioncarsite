@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <!-- <link rel="stylesheet" href="style/components/ld-input.css"> -->
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+
+    <!-- GENERIC -->
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <!-- BASE -->
+    <link rel="stylesheet" href="style/base/html.css">
+    <!-- COMPONENTS -->
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/pages/UserCreate.css">
+    <script src="scripts/UserCreate.js"></script>
+
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper">
+                <div class="image-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="main-title">
+                <span class="down">Editar Usuario.</span>
+            </h1>
+            <input required id="nome" class="ld-input" placeholder="nome">
+            <input required id="email" type="email" class="ld-input" placeholder="Email">
+            <input required id="senha" type="password" class="ld-input" placeholder="Senha">
+            <div class="button-wrapper">
+                <button class="ld-button -small" id="ld-button -small">Avançar</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const _id = urlParams.get("id");
+            const _idEmpresa = urlParams.get("idEmpresa");
+            const _Nome = urlParams.get("Nome");
+            const _email = urlParams.get("email");
+            const _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+
+            if (_id) {
+                const idEmpresa = document.getElementById('idEmpresa');
+                idEmpresa.textContent = _Nome;
+                const nome = document.getElementById('nome');
+                nome.textContent = _Nome;
+                const email = document.getElementById('email');
+                email.textContent = _Nome;
+            }
+
+
+            const avancarButton = document.getElementById("ld-button -small");
+            avancarButton.addEventListener("click", cadastrar);
+
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                myHeaders.append("Cookie",
+                    "remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IktxbmxpZnBiQ0toeTFRMnNPSEFYM1E9PSIsInZhbHVlIjoiVml6ZlBoSkFPNklGdU5HWG9sRzNkTTMwMGd3MXM2N0xhdmxweE5KTU8zeEp4cEd6ZEhyQ2dQcDNNSDQ4UGo0SUp3bitjTUI4ald6ZVJWZjA3UjByOTlEN2JFZHB4MHFzbXVRalVqYnRNTlU9IiwibWFjIjoiNjM2ZDljMzViMDYxN2Q0OWUyZTJmZGFkZmZkYTVmYWRmNTg5ZTI4ZWJjYjNjMjUyNjQ4N2M0MzJkOTU1OGFmZSJ9"
+                    );
+
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "idEmpresa": 10,
+                    "nome": "string",
+                    "email": "st11xxx11111ring",
+                    "senha": "string",
+                    "data_add": "2023-08-21T12:26:26.554Z",
+                    "ativo": true,
+                    "master": true,
+                    "role": "string"
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("https://produtoapi.azurewebsites.net/api/users", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            }
+        });
+    </script>
+</body>
+
+</html>

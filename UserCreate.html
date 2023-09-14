@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <!-- <link rel="stylesheet" href="style/components/ld-input.css"> -->
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+
+    <!-- GENERIC -->
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <!-- BASE -->
+    <link rel="stylesheet" href="style/base/html.css">
+    <!-- COMPONENTS -->
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/pages/UserCreate.css">
+    <script src="scripts/UserCreate.js"></script>
+
+    <style>
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+        }
+
+        .checkbox-label {
+            margin-left: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper -has-user">
+                <div class="menu-icon">
+                    <a href="Menu.html">
+                        <i class="material-icons">home</i>
+                    </a>
+                </div>
+
+                <div class="logo-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+
+                <div class="user">
+                    <div class="info">
+                        <h3><span id="name" class="name"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="main-title">
+                <span id="titulo">Cadastrar Usuario.</span>
+            </h1>
+            <h3 class="Tamanho-title">Nome</h3>
+            <input required id="nome" class="ld-input" placeholder="nome">
+            <h3 class="Tamanho-title">Email</h3>
+            <input required id="email" type="email" class="ld-input" placeholder="Email">
+            <h3 class="Tamanho-title">Senha</h3>
+            <input required id="senha" type="password" class="ld-input" placeholder="Senha">
+
+            <div class="method-option">
+                <h3 class="ativo-title">Usuario Ativo</h3>
+                <input name="usuario-ativo" type="checkbox" id="userativo" value="Ativo">
+            </div>
+
+            <div class="button-wrapper">
+                <button class="ld-button -small" id="ld-button -small">Avançar</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const _id = urlParams.get("id");
+            var _idEmpresa = urlParams.get("idEmpresa");
+            const _Nome = urlParams.get("nome");
+            const _email = urlParams.get("email");
+            const _ativo = urlParams.get("ativo");
+
+            var _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+            const storedName = sessionStorage.getItem("User_nome");
+            const pw = sessionStorage.getItem("User_PW");
+            var nomeInput = document.getElementById('nome');
+            var emailInput = document.getElementById('email');
+            var usuarioAtivo = document.getElementById('userativo');
+            const tituloCliente = document.getElementById("titulo");
+            if (storedName) {
+                const nameElement = document.getElementById("name");
+                nameElement.textContent = "Usuario: " + storedName;
+            }
+            if (!_idEmpresa) _idEmpresa = _UseridEmpresa;
+
+            if (_id) {
+                nomeInput.value = _Nome;
+                emailInput.value = _email;
+                usuarioAtivo.checked = _ativo === "true";
+                tituloCliente.textContent = "Editar Usuario";
+            }
+            const avancarButton = document.getElementById("ld-button -small");
+            avancarButton.addEventListener("click", cadastrarini);
+
+            function cadastrarini() {
+                nomeInput = document.getElementById('nome'); // Use elemento input
+                emailInput = document.getElementById('email'); // Use elemento input
+                if (_id) {
+                    Update();
+                } else {
+                    pesquisa()
+                        .then(userExists => {
+                            if (userExists) {
+                                Swal.fire({
+                                    title: 'Falha!!',
+                                    text: 'Já existe um usuário com este email!!!',
+                                    icon: 'error',
+                                    confirmButtonText: 'Ok!'
+                                });
+                            } else {
+                                cadastrar();
+                            }
+                        })
+                        .catch(error => {});
+                }
+            }
+
+            function pesquisa() {
+                return fetch("https://produtoapi.azurewebsites.net/api/users/login/" + emailInput.value)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            return false;
+                        }
+                    })
+                    .catch(error => {
+                        return false;
+                    });
+            }
+            function pesquisaempresa() {
+                return fetch("https://produtoapi.azurewebsites.net/api/users/login/" + emailInput.value)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            return false;
+                        }
+                    })
+                    .catch(error => {
+                        return false;
+                    });
+            }
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "idEmpresa": _idEmpresa,
+                    "nome": document.querySelector("#nome").value,
+                    "email": document.querySelector("#email").value,
+                    "senha": document.querySelector("#senha").value,
+                    "data_add": new Date(),
+                    "ativo": true,
+                    "master": false,
+                    "role": ""
+                });
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/users", requestOptions)
+                    .then(response => response.json())
+                    .then(response => {
+                        Swal.fire({
+                            
+                            title: 'Bom Trabalho!',
+                            text: "Cadastrado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaUsuarios.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function Update() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": _id,
+                    "nome": document.querySelector("#nome").value,
+                    "email": document.querySelector("#email").value,
+                    "senha": document.querySelector("#senha").value==""?pw:document.querySelector("#senha").value,
+                    "idEmpresa": _UseridEmpresa,
+                    "data_add": "2023-08-21T12:26:26.554Z",
+                    "ativo": usuarioAtivo.checked,
+                    "master": true,
+                    "role": "string"
+                });
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/users/"+ _id, requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Usuario Atualizado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaUsuarios.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

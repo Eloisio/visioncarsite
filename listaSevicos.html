@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <link rel="stylesheet" href="style/base/html.css">
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/components/ld-tableservicos.css">
+</head>
+
+<body>
+    <div class="ld-list">
+        <div class="ld-wrapper">
+            <header class="ld-header">
+                <div class="wrapper -has-user">
+                    <div class="menu-icon">
+                        <a href="Menu.html">
+                            <i class="material-icons">home</i>
+                        </a>
+                    </div>
+                    <div class="logo-wrapper">
+                        <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                    </div>
+                    <div class="user">
+                        <div class="info">
+                            <h3><span id="name" class="name"></span></h3>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content -one-col">
+                <div class="title-button">
+                    <h1 class="title">Serviços</h1>
+                    <div class="button-wrapper">
+                        <a href="ServicoCreate.html" class="ld-button -small">Novo Serviço</a>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="ld-table">
+                        <div class="head">
+                            <div class="row">
+                                <div>Descricao</div>
+                                <div>Preço Peq</div>
+                                <div>Preço Med</div>
+                                <div>Preço Grd</div>
+                                <div>Preço VAN</div>
+                                <div>Preço CAM</div>
+                                <div>Ativo</div>
+                                <div>Açoes</div>
+                            </div>
+                        </div>
+                        <div class="body" id="table-body">
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+        <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                const storedName = sessionStorage.getItem("User_nome");
+                const idempresa = sessionStorage.getItem('User_idEmpresa');
+                const masterValue = sessionStorage.getItem("User_Master");
+                if (storedName) {
+                    const nameElement = document.getElementById("name");
+                    nameElement.textContent = "Usuario: "+storedName;
+                }
+            });
+        let lista = [];
+
+        function getServicos() {
+            const idempresa = sessionStorage.getItem('User_idEmpresa');
+            fetch("https://produtoapi.azurewebsites.net/api/servico/Empresa/"+idempresa)
+                .then(response => response.json())
+                .then(response => {
+                    lista = response;
+                    buildTable();
+                })
+        }
+
+        function buildTable() {
+            document.querySelector("#table-body").innerHTML = '';
+            const idempresa = localStorage.getItem('idEmpresa');
+
+            lista.forEach(el => {
+
+                let template = `
+            <div class="row">
+                <div class="title-description">
+                    <h6 class="Descricao">${el.descricao}</h6> 
+                </div>
+                <div class="preco"> ${el.preco}</div>
+                <div class="preco"> ${el.precoMD}</div>
+                <div class="preco"> ${el.precoGD}</div>
+                <div class="preco"> ${el.precoVAN}</div>
+                <div class="preco2"> ${el.precoCAM}</div>
+                <div class="ativo"> 
+                ${el.ativo ? '<i class="icon-active material-icons">check_circle</i>' : '<i class="icon-inactive material-icons">cancel</i>'}
+                </div>
+                <div class="actions">
+                    <span class="edit material-icons" onclick="ToEdit(${el.id},${el.idEmpresa}, '${el.descricao}','${el.preco}','${el.precoMD}','${el.precoGD}','${el.precoVAN}','${el.precoCAM}','${el.ativo}')">edit</span>
+                </div>
+            </div>
+        `
+                document.querySelector("#table-body").insertAdjacentHTML("beforeend", template)
+            });
+        }
+
+        function ToEdit(Servicoid, ServicoEmpresa, ServicoDescricao, ServicoPreco, ServicoPrecomd, ServicoPrecogd, ServicoPrecovan, ServicoPrecocam,ServicoAtivo) {
+            window.location.href =
+                'ServicoCreate.html?id=' + Servicoid + 
+                '&idEmpresa=' + ServicoEmpresa + 
+                '&servicodescricao=' + ServicoDescricao + 
+                '&servicopreco=' + ServicoPreco + 
+                '&servicoprecomd=' + ServicoPrecomd+ 
+                '&servicoprecogd=' + ServicoPrecogd+ 
+                '&servicoprecocam=' + ServicoPrecocam +
+                '&servicoprecovan=' + ServicoPrecovan + 
+                '&servicoativo=' + ServicoAtivo;
+        }
+        window.onload = function () {
+            getServicos();
+        }
+    </script>
+
+</body>
+
+</html>

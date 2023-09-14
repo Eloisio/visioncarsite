@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veiculo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <link rel="stylesheet" href="style/components/ld-input.css">
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+
+    <!-- GENERIC -->
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <!-- <link rel="stylesheet" href="style/generic/box-sizing.css"> -->
+    <!-- BASE -->
+    <link rel="stylesheet" href="style/base/html.css">
+    <!-- COMPONENTS -->
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/pages/UserCreate.css">
+    <script src="scripts/UserCreate.js"></script>
+
+    <style>
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+        }
+
+        .checkbox-label {
+            margin-left: 1px;
+        }
+
+        .method-option {
+            margin-top: 30px;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 0px;
+            /* Ajuste este valor de acordo com a quantidade de espaço desejada entre os botões de rádio */
+        }
+
+        .rating-item {
+            text-align: center;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .rating-description {
+            font-size: 1.2em;
+            margin-top: 5px;
+            /* Ajuste o espaço vertical entre a descrição e o botão de rádio */
+        }
+
+        /* Adicione uma regra de mídia para ajustar o espaçamento em telas menores */
+        @media (max-width: 768px) {
+            .rating {
+                flex-direction: column;
+                /* Empilhar os itens verticalmente */
+                align-items: center;
+                /* Centralizar verticalmente */
+            }
+
+            .rating-item {
+                margin: 5px 0;
+                /* Adicione margem superior e inferior para espaçamento entre os itens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper -has-user">
+                <div class="menu-icon">
+                    <a href="Menu.html">
+                        <i class="material-icons">home</i>
+                    </a>
+                </div>
+                <div class="logo-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+                <div class="user">
+                    <div class="info">
+                        <h3><span id="name" class="name"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="main-title">
+                <span id="titulo">Cadastrar Veiculo.</span>
+            </h1>
+            <h3 class="tamanho-title">Descricao</h3>
+            <input required id="descricao" class="ld-input" placeholder="descricao">
+            <div class="rating">
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="1" id="Pequeno">
+                    <div class="rating-description">Pequeno</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="2" id="Medio">
+                    <div class="rating-description">Medio</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="3" id="Grande">
+                    <div class="rating-description">Grande</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="4" id="Van">
+                    <div class="rating-description">Van</div>
+                </div>
+                <div class="rating-item">
+                    <input type="radio" name="rating" value="5" id="Caminhao">
+                    <div class="rating-description">Caminhao</div>
+                </div>
+            </div>
+            <div class="method-option">
+                <h3 class="ativo-title">Veiculo Ativo</h3>
+                <input name="usuario-ativo" type="checkbox" id="userativo" value="Ativo">
+            </div>
+
+            <div class="button-wrapper">
+                <button class="ld-button -small" id="ld-button -small">Avançar</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const storedName = sessionStorage.getItem("User_nome");
+            const masterValue = sessionStorage.getItem("User_Master");
+            if (storedName) {
+                const nameElement = document.getElementById("name");
+                nameElement.textContent = "Usuario: " + storedName;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const _id = urlParams.get("id");
+            const _descricao = urlParams.get("Veiculodescricao");
+            const _ativo = urlParams.get("Veiculoativo");
+            var _tamanho = urlParams.get("Veiculotamanho");
+
+            var _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+            var descricaoInput = document.getElementById('descricao');
+            var usuarioAtivo = document.getElementById('userativo');
+
+            var _PQ = document.getElementById('Pequeno');
+            var _MD = document.getElementById('Medio');
+            var _GD = document.getElementById('Grande');
+            var _VAN = document.getElementById('Van');
+            var _CAM = document.getElementById('Caminhao');
+            const tituloVeiculo = document.getElementById("titulo");
+
+            _UseridEmpresa;
+
+            if (_id) {
+                descricaoInput.value = _descricao;
+
+                if (_tamanho.toUpperCase() == "PEQUENO") {
+                    _PQ.checked=true;
+                } else {
+                    if (_tamanho.toUpperCase() == "MEDIO") {
+                        _MD.checked=true;
+                    } else {
+                        if (_tamanho.toUpperCase() == "GRANDE") {
+                            _GD.checked=true;
+                        } else {
+                            if (_tamanho.toUpperCase() == "VAN") {
+                                _VAN.checked=true;
+                            } else {
+                                if (_tamanho.toUpperCase() == "CAMINHAO") {
+                                    _CAM.checked=true;
+                                } 
+                            }
+                        }
+                    }
+                }
+
+
+                usuarioAtivo.checked = _ativo === "true";
+                tituloVeiculo.textContent = "Editar Veiculo";
+            }
+            const avancarButton = document.getElementById("ld-button -small");
+            avancarButton.addEventListener("click", cadastrarini);
+
+            function cadastrarini() {
+                if (_PQ.checked==true) {
+                    _tamanho = "PEQUENO";
+                } else {
+                    if ( _MD.checked==true) {
+                       _tamanho = "MEDIO";
+                    } else {
+                        if (_GD.checked==true) {
+                            _tamanho = "GRANDE";
+                        } else {
+                            if (_VAN.checked==true) {
+                                _tamanho = "VAN";
+                            } else {
+                                if (_CAM.checked==true) {
+                                    _tamanho = "CAMINHAO";
+                                } 
+                            }
+                        }
+                    }
+                }
+                if (_id) {
+                    Update();
+                } else {
+                    cadastrar();
+                }
+
+            }
+
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "name": descricaoInput.value,
+                    "tamanho": _tamanho,
+                    "ativo": usuarioAtivo.checked
+                });
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Veiculo", requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Serviço Cadastrado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaVeiculos.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function Update() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": _id,
+                    "name": descricaoInput.value,
+                    "tamanho": _tamanho,
+                    "ativo": usuarioAtivo.checked
+                });
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Veiculo/"+_id, requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Serviço Atualizado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaVeiculos.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>

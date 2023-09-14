@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <!-- <link rel="stylesheet" href="style/components/ld-input.css"> -->
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+
+    <!-- GENERIC -->
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <!-- BASE -->
+    <link rel="stylesheet" href="style/base/html.css">
+    <!-- COMPONENTS -->
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/pages/UserCreate.css">
+    <script src="scripts/UserCreate.js"></script>
+
+    <style>
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+        }
+
+        .checkbox-label {
+            margin-left: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper -has-user">
+                <div class="menu-icon">
+                    <a href="Menu.html">
+                        <i class="material-icons">home</i>
+                    </a>
+                </div>
+                <div class="logo-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+                <div class="user">
+                    <div class="info">
+                        <h3><span id="name" class="name"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="main-title">
+                <span id="titulo">Cadastrar Servico.</span>
+            </h1>
+            <h3 class="Tamanho-title">Descricao</h3>
+            <input required id="descricao" class="ld-input" placeholder="descricao">
+            <h3 class="Tamanho-title">Preco Peq</h3>
+            <input required id="precopq" type="preco" class="ld-input" placeholder="Preço Veiculo Pequeno">
+            <h3 class="Tamanho-title">Preco Med</h3>
+            <input required id="precomd" type="preco" class="ld-input" placeholder="Preço Veiculo Medio">
+            <h3 class="Tamanho-title">Preco Grd</h3>
+            <input required id="precogd" type="preco" class="ld-input" placeholder="Preço Veiculo Grande">
+            <h3 class="Tamanho-title">Preco VAN</h3>
+            <input required id="precovan" type="preco" class="ld-input" placeholder="Preço Van">
+            <h3 class="Tamanho-title">Preco CAM</h3>
+            <input required id="precocam" type="preco" class="ld-input" placeholder="Preço Caminhão">
+
+            <div class="method-option">
+                <h3 class="ativo-title">Servico Ativo</h3>
+                <input name="usuario-ativo" type="checkbox" id="userativo" value="Ativo">
+            </div>
+
+            <div class="button-wrapper">
+                <button class="ld-button -small" id="ld-button -small">Avançar</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        const valorInputpq = document.getElementById("precopq");
+        const valorInputmd = document.getElementById("precomd");
+        const valorInputgd = document.getElementById("precogd");
+        const valorInputvan = document.getElementById("precovan");
+        const valorInputcam = document.getElementById("precocam");
+
+        valorInputgd.addEventListener("input", function () {
+            const inputValuegd = valorInputgd.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (inputValuegd !== "") {
+                const valor = parseFloat(inputValuegd) / 100; // Divide por 100 para ajustar a escala de moeda
+                valorInputgd.value = new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }).format(valor);
+            }
+        });        
+        
+        valorInputpq.addEventListener("input", function () {
+            const inputValuepq = valorInputpq.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (inputValuepq !== "") {
+                const valor = parseFloat(inputValuepq) / 100; // Divide por 100 para ajustar a escala de moeda
+                valorInputpq.value = new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }).format(valor);
+            }
+        });
+        valorInputmd.addEventListener("input", function () {
+            const inputValuemd = valorInputmd.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (inputValuemd !== "") {
+                const valor = parseFloat(inputValuemd) / 100; // Divide por 100 para ajustar a escala de moeda
+                valorInputmd.value = new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }).format(valor);
+            }
+        });
+        valorInputvan.addEventListener("input", function () {
+            const inputValuevan = valorInputvan.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (inputValuevan !== "") {
+                const valor = parseFloat(inputValuevan) / 100; // Divide por 100 para ajustar a escala de moeda
+                valorInputvan.value = new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }).format(valor);
+            }
+        });
+        valorInputcam.addEventListener("input", function () {
+            const inputValuecam = valorInputcam.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (inputValuecam !== "") {
+                const valor = parseFloat(inputValuecam) / 100; // Divide por 100 para ajustar a escala de moeda
+                valorInputcam.value = new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }).format(valor);
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const _id = urlParams.get("id");
+            var _idEmpresa = urlParams.get("idEmpresa");
+            const _descricao = urlParams.get("servicodescricao");
+            const _precogd = urlParams.get("servicoprecogd");
+            const _precopq = urlParams.get("servicoprecopq");
+            const _precomd = urlParams.get("servicoprecomd");
+            const _precovan = urlParams.get("servicoprecovan");
+            const _precocam = urlParams.get("servicoprecocam");
+            const _ativo = urlParams.get("servicoativo");
+
+            var _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+            var descricaoInput = document.getElementById('descricao');
+            var precoInputgd = document.getElementById('precogd');
+            var precoInputpq = document.getElementById('precopq');
+            var precoInputmd = document.getElementById('precomd');
+            var precoInputvan = document.getElementById('precovan');
+            var precoInputcam = document.getElementById('precocam');
+            var usuarioAtivo = document.getElementById('userativo');
+            const tituloServico = document.getElementById("titulo");
+            const storedName = sessionStorage.getItem("User_nome");
+                const masterValue = sessionStorage.getItem("User_Master");
+
+                if (storedName) {
+                    const nameElement = document.getElementById("name");
+                    nameElement.textContent = "Usuario: "+storedName;
+                }
+
+            if (!_idEmpresa) _idEmpresa = _UseridEmpresa;
+
+            if (_id) {
+                descricaoInput.value = _descricao;
+                precoInputgd.value = _precogd;
+                precoInputpq.value = _precopq;
+                precoInputmd.value = _precomd;
+                precoInputvan.value = _precovan;
+                precoInputcam.value = _precocam;
+                usuarioAtivo.checked = _ativo === "true";
+                tituloServico.textContent = "Editar Serviço";
+            }
+            const avancarButton = document.getElementById("ld-button -small");
+            avancarButton.addEventListener("click", cadastrarini);
+
+            function cadastrarini() {
+                if (_id) {
+                    Update();
+                } else {
+                    cadastrar();
+                }
+            }
+
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "idEmpresa": _idEmpresa,
+                    "descricao": descricaoInput.value,
+                    "preco":precoInputpq.value.replace("R$","").trim(),
+                    "precoGD":precoInputgd.value.replace("R$","").trim(),
+                    "precoMD":precoInputmd.value.replace("R$","").trim(),
+                    "precoVAN":precoInputvan.value.replace("R$","").trim(),
+                    "precoCAM":precoInputcam.value.replace("R$","").trim(),
+                    "ativo": true
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/servico", requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Serviço Cadastrado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaSevicos.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function Update() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": _id,
+                    "idEmpresa": _idEmpresa,
+                    "descricao": descricaoInput.value,
+                    "preco": precoInputpq.value,
+                    "precoGD": precoInputgd.value,
+                    "precoMD": precoInputmd.value,
+                    "precoVAN": precoInputvan.value,
+                    "precoCAM": precoInputcam.value,
+                    "ativo": usuarioAtivo.checked
+                });
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/servico/"+_id, requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Serviço Atualizado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaSevicos.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

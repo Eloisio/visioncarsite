@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/components/ld-header.css">
+    <!-- <link rel="stylesheet" href="style/components/ld-input.css"> -->
+    <link rel="stylesheet" href="style/settings/wrapper.css">
+    <link rel="stylesheet" href="style/settings/core.css">
+    <link rel="stylesheet" href="style/settings/color.css">
+    <link rel="stylesheet" href="style/settings/text.css">
+
+    <!-- GENERIC -->
+    <link rel="stylesheet" href="style/generic/reset.css">
+    <link rel="stylesheet" href="style/generic/box-sizing.css">
+    <!-- BASE -->
+    <link rel="stylesheet" href="style/base/html.css">
+    <!-- COMPONENTS -->
+    <link rel="stylesheet" href="style/components/ld-button.css">
+    <link rel="stylesheet" href="style/pages/UserCreate.css">
+    <script src="scripts/UserCreate.js"></script>
+
+    <style>
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+        }
+
+        .checkbox-label {
+            margin-left: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ld-wrapper">
+        <header class="ld-header">
+            <div class="wrapper -has-user">
+                <div class="menu-icon">
+                    <a href="Menu.html">
+                        <i class="material-icons">home</i>
+                    </a>
+                </div>
+                <div class="logo-wrapper">
+                    <img alt="Logo" class="image" src="assets/logo/Logo_VisionCar.png">
+                </div>
+                <div class="user">
+                    <div class="info">
+                        <h3><span id="name" class="name"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="main-title">
+                <span id="titulo">Cadastrar Produto.</span>
+            </h1>
+            <h3 class="Tamanho-title">Descricao</h3>
+            <input required id="descricao" class="ld-input" placeholder="descricao">
+            <h3 class="Tamanho-title">Preco</h3>
+            <input required id="preco" type="preco" class="ld-input" placeholder="Preço">
+
+            <div class="method-option">
+                <h3 class="ativo-title">Produto Ativo</h3>
+                <input name="usuario-ativo" type="checkbox" id="userativo" value="Ativo">
+            </div>
+
+            <div class="button-wrapper">
+                <button class="ld-button -small" id="ld-button -small">Avançar</button>
+            </div>
+        </main>
+    </div>
+    <script>
+                                                    document.addEventListener("DOMContentLoaded", function () {
+                const storedName = sessionStorage.getItem("User_nome");
+                const masterValue = sessionStorage.getItem("User_Master");
+
+                if (storedName) {
+                    const nameElement = document.getElementById("name");
+                    nameElement.textContent = "Usuario: "+storedName;
+                }
+
+            });
+        const valorInput = document.getElementById("preco");
+
+        valorInput.addEventListener("input", function () {
+            const inputValue = valorInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (inputValue !== "") {
+                const valor = parseFloat(inputValue) / 100; // Divide por 100 para ajustar a escala de moeda
+                valorInput.value = new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }).format(valor);
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const _id = urlParams.get("id");
+            var _idEmpresa = urlParams.get("idEmpresa");
+            const _descricao = urlParams.get("Produtodescricao");
+            const _preco = urlParams.get("Produtopreco");
+            const _ativo = urlParams.get("Produtoativo");
+
+            var _UseridEmpresa = sessionStorage.getItem("User_idEmpresa");
+            var descricaoInput = document.getElementById('descricao');
+            var precoInput = document.getElementById('preco');
+            var usuarioAtivo = document.getElementById('userativo');
+            const tituloProduto = document.getElementById("titulo");
+
+            if (!_idEmpresa) _idEmpresa = _UseridEmpresa;
+
+            if (_id) {
+                descricaoInput.value = _descricao;
+                precoInput.value = _preco;
+                usuarioAtivo.checked = _ativo === "true";
+                tituloProduto.textContent = "Editar Serviço";
+            }
+            const avancarButton = document.getElementById("ld-button -small");
+            avancarButton.addEventListener("click", cadastrarini);
+
+            function cadastrarini() {
+                if (_id) {
+                    Update();
+                } else {
+                    cadastrar();
+                }
+            }
+
+            function cadastrar() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var p = precoInput.value.replace("R$", "").replace(",", ".").trim();
+
+                var raw = JSON.stringify({
+                    "id": 0,
+                    "idEmpresa": _idEmpresa,
+                    "descricao": descricaoInput.value,
+                    "preco":precoInput.value.replace("R$","").trim(),
+                    "ativo": true
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Produto", requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Serviço Cadastrado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaProdutos.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function Update() {
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                var raw = JSON.stringify({
+                    "id": _id,
+                    "idEmpresa": _idEmpresa,
+                    "descricao": descricaoInput.value,
+                    "preco":precoInput.value.replace("R$","").trim(),
+                    "ativo": true
+                });
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                fetch("https://produtoapi.azurewebsites.net/api/Produto", requestOptions)
+                    .then(response => response.text())
+                    .then(response => {
+                        Swal.fire({
+                            title: 'Bom Trabalho!',
+                            text: "Serviço Atualizado com sucesso!",
+                            icon: 'success',
+                            confirmButtonText: 'Ok!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "listaProdutos.html";
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+        });
+    </script>
+</body>
+</html>
