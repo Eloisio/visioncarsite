@@ -210,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cliente_veiculo = sessionStorage.getItem("cliente_veiculo");
     const venda_id = sessionStorage.getItem("idVenda");
     const cliente_EmpresaId = sessionStorage.getItem("cliente_EmpresaId");
+    const cliente_Placa = sessionStorage.getItem("cliente_placa");
     document.getElementById('produtos').style.display = 'nome';
     document.getElementById("confirmarSelecao").addEventListener("click", function () {
         var selectedprodutos = document.querySelectorAll('input[name="produtoSelecionado"]:checked');
@@ -258,14 +259,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 "valor": valorTotalDecimal,
                 "caixinha": valorTotalcaixinhaDecimal,
                 "inicio": dataAtual,
-                "fim": dataAtual,
+                "fim": "2001-01-01",
                 "data": dataAtual,
                 "pago": false,
                 "avisarCliente": false,
                 "excluido": false,
                 "observacao": "",
                 "descricao": descricao,
-                "placa": "",
+                "placa": cliente_Placa,
                 "tipoPgto": radioCartao.checked ? 2 : radioDinheiro.checked ? 1 : 3,
                 "avaliacao": "",
                 "avaliacaoDescricao": "",

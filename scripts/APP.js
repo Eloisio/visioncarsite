@@ -70,7 +70,7 @@ const init = () => {
             event.preventDefault();
 
             submitButton.textContent = "Loading...";
-            fetch("https://produtoapi.azurewebsites.net/api/Users/login/"+ inputEmail.value )
+                        fetch("https://produtoapi.azurewebsites.net/api/Users/login/"+ inputEmail.value )
             .then(response => response.json())
             .then(response => {
                 if (inputPassword.value === response.senha) {

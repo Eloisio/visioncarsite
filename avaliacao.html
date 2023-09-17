@@ -178,6 +178,7 @@
             var Venda_carro = sessionStorage.getItem("cliente_veiculo");
             var _MsgCadastroAvaliacao = sessionStorage.getItem("Empresa_MsgCadastroAvaliacao");
             var Venda_tipoVeiculo = sessionStorage.getItem("cliente_tpveiculo");
+            var Cliente_placa = sessionStorage.getItem("cliente_placa");
             var selectedRating = null;
             const enviarAvaliacaoButton = document.querySelector('button[type="submit"]');
 
@@ -206,7 +207,7 @@
                     "id": 0,
                     "idEmpresa": cliente_EmpresaId,
                     "carro": Venda_carro,
-                    "placa": "",
+                    "placa": Cliente_placa,
                     "celular": avaliacaoCelular.value,
                     "tipoVeiculo": Venda_tipoVeiculo,
                     "data_add": dataAtual,
@@ -267,7 +268,7 @@
                     "excluido": true,
                     "observacao": "string",
                     "descricao": "string",
-                    "placa": "string",
+                    "placa": Cliente_placa,
                     "tipoPgto": 0,
                     "avaliacao": avaliacao_,
                     "avaliacaoDescricao": avaliacaoDescricao.value,
