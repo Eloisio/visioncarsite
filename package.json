@@ -4,6 +4,6 @@
   },
 
 "scripts": {
-  "build": "npm run build"
+  "build": "mkdir -p build && cp -r ./*.html ./*.js build/"
 }
 }
